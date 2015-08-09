@@ -48,11 +48,17 @@ let rec print_nombre x =
 
 let print_nb n =
 	(fun x -> ()) (print_nombre n);;
+
+let rec complexity n =
+	match n with
+	Int x -> 0
+	| Op(_,_,x,y) -> 1 +  (complexity x) + (complexity y);;
 (************************************************)
 (* end basic function                           *)
 (************************************************)
 
 let goal = Int 903;;
+let result = ref [];;
 
 let distribute g f  l = 
 	let rec distribute_acc g f  l acc =
@@ -70,8 +76,7 @@ let distribute g f  l =
 
 let rec explore l =
 	List.iter (fun x -> if (gv(x) = gv(goal)) then begin
-				print_string "TROUVE : \n";
-				print_nb x;
+				result := x :: !result;
                             end) l;
 
 	let rec explore_acc l acc =
@@ -84,6 +89,7 @@ let rec explore l =
 				distribute explore (fun x -> sub_l a x) (t@acc) ;
 				distribute explore (fun x -> div_r a x) (t@acc) ;
 				distribute explore (fun x -> div_l a x) (t@acc) ;
+				explore_acc t (a::acc);
 			  end
 	in 
 	explore_acc l [];;
@@ -118,4 +124,8 @@ print_nombre (Op (10, Add,  (Op (8, Mult, Int 2, Int 4)),
              );;
 
 *)
-explore [Int 2; Int 25; Int 4; Int 75; Int 3; Int 7; Int 2];;
+explore [Int 7; Int 25;  Int 75; Int 3; Int 2; ];;
+List.iter (fun x -> 
+           print_string "TROUVE : complexity ="; 
+           print_int (complexity(x)); print_string "\n";  
+           print_nb x)  (List.sort ( fun x y -> compare (complexity x) (complexity y)) !result) ;;
