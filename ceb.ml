@@ -1,19 +1,11 @@
 exception Illegal;;
 type operation = Add | Mult | Sub_l | Sub_r | Div_l | Div_r;;
 type nombre = Int of int | Op of int * operation * nombre * nombre;;
+exception Trouve of nombre;;
 
-let rec distribute_acc g f a l acc =
-	match l with
-	[] -> (	)
-	| x::t -> begin 
-		try 
-			g( acc@[f a x]@t)
-		with Illegal -> ();
-	end;
-	distribute_acc g f a t (x::acc);;
-
-let distribute g f a l = 
-	distribute_acc g f a l [];;
+(************************************************)
+(* basic function                               *)
+(************************************************)
 
 let gv x =
 	match x with
@@ -24,7 +16,7 @@ let add x y =
 	Op(gv(x)+gv(y),Add,x,y);;
 	
 let sub_r x y = 
-	if (gv(x) < gv(y)) then raise Illegal
+	if (gv(x) <= gv(y)) then raise Illegal
 	else Op(gv(x)-gv(y), Sub_r,x,y);;
 let sub_l x y = 
 	sub_r y x;;
@@ -38,12 +30,6 @@ let div_r x y =
 let div_l x y = 
 	div_r y x;;
 
-(*
-let explore_acc l acc =
-	match l with
-	[] -> ()
-	| x::t -> distribute explore_acc add x t
-*)
 let rec print_nombre x =
 	match x with
 	Int a ->  a;
@@ -60,32 +46,68 @@ let rec print_nombre x =
 		res
 ;;
 
-let g l = 
-	List.iter (fun x -> Printf.printf "%d " x) l;
-	print_string "\n";;
+let print_nb n =
+	(fun x -> ()) (print_nombre n);;
+(************************************************)
+(* end basic function                           *)
+(************************************************)
 
-let f = (+);;
+let goal = Int 903;;
 
-let moins x y  =
-	if (x < y) then raise Illegal
-	else (x-y);;
+let distribute g f  l = 
+	let rec distribute_acc g f  l acc =
+		match l with
+		[] -> (	)
+		| x::t -> begin 
+			try 
+				g( acc@[f  x]@t)
+			with 
+			| Illegal -> ();
+		end;
+		distribute_acc g f  t (x::acc)
+	in
+	distribute_acc g f  l [];;
 
-distribute g f 1 [1;2;3;5];;
-print_string "----------------\n";
-distribute g moins 3 [1;2;3;5;0;2];;
-print_string "----------------\n";;
+let rec explore l =
+	List.iter (fun x -> if (gv(x) = gv(goal)) then begin
+				print_string "TROUVE : \n";
+				print_nb x;
+                            end) l;
 
+	let rec explore_acc l acc =
+		match l with
+		| [] -> ()
+		| a::t -> begin
+				distribute explore (fun x -> add a x) (t@acc) ;
+				distribute explore (fun x -> mult a x) (t@acc) ;
+				distribute explore (fun x -> sub_r a x) (t@acc) ;
+				distribute explore (fun x -> sub_l a x) (t@acc) ;
+				distribute explore (fun x -> div_r a x) (t@acc) ;
+				distribute explore (fun x -> div_l a x) (t@acc) ;
+			  end
+	in 
+	explore_acc l [];;
+	
+(*
+let explore_acc l acc =
+	match l with
+	[] -> ()
+	| x::t -> distribute explore_acc add x t
+*)
+
+
+(*
 let pn l = 
 	List.iter (fun x -> print_int (print_nombre x)) l; 
 	print_string " | \n";;
 
-distribute pn div_r (Int 3) [Int 6;Int 2;Int 3;Int 5;Int 0;Int 1];;
+distribute pn (fun x -> div_r (Int 3) x) [Int 6;Int 2;Int 3;Int 5;Int 0;Int 1];;
 print_string "----------------\n";
-distribute pn div_l (Int 3) [Int 1;Int 2;Int 3;Int 5;Int 0;Int 2];;
+distribute pn (fun x -> div_l (Int 3) x) [Int 1;Int 2;Int 3;Int 5;Int 0;Int 2];;
 print_string "----------------\n";
-distribute pn div_r (Int 3) [Int 1;Int 3;Int 6];;
+distribute pn (fun x -> div_r (Int 3) x) [Int 1;Int 3;Int 6];;
 print_string "----------------\n";
-distribute pn div_l (Int 3) [Int 1;Int 3;Int 6];;
+distribute pn (fun x -> div_l (Int 3) x) [Int 1;Int 3;Int 6];;
 
 print_string "----------------\n";
 print_nombre (Int 4);;
@@ -94,3 +116,6 @@ print_nombre (Op (10, Add,  (Op (8, Mult, Int 2, Int 4)),
                             (Op (2, Add,  Int 1, Int 1))
                  )
              );;
+
+*)
+explore [Int 2; Int 25; Int 4; Int 75; Int 3; Int 7; Int 2];;
