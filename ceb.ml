@@ -1,7 +1,7 @@
 open Core.Std;;
 
 exception Illegal;;
-type operation = Add | Mult | Sub_l | Sub_r | Div_l | Div_r;;
+type operation = Add | Mult | Sub |  Div ;;
 type nombre = Int of int | Op of int * operation * nombre * nombre;;
 exception Trouve of nombre;;
 (************************************************)
@@ -17,23 +17,19 @@ let add x y =
         if gv(x) <= gv(y) then raise Illegal
         else Op(gv(x)+gv(y),Add,x,y);;
 	
-let sub_r x y = 
+let sub x y = 
 	if (gv(x) <= gv(y)) then raise Illegal
-	else Op(gv(x)-gv(y), Sub_r,x,y);;
+	else Op(gv(x)-gv(y), Sub,x,y);;
 
-let sub_l x y = 
-	sub_r y x;;
 
 let mult x y = 
         if (gv(x) <= gv(y) || gv(x) = 1 || gv(y) = 1 ) then raise Illegal
         else Op(gv(x)*gv(y),Mult, x,y);;
 
-let div_r x y = 
+let div x y = 
 	if (gv(y)=0) || not (gv(x) mod gv(y) =0) then raise Illegal
-	else Op(gv(x)/gv(y),Div_r,x,y);;
+	else Op(gv(x)/gv(y),Div,x,y);;
 
-let div_l x y = 
-	div_r y x;;
 
 let rec print_nombre x =
 	match x with
@@ -42,10 +38,8 @@ let rec print_nombre x =
 		let (op_string,val1,val2) = match op with
 		| Add -> " + ", print_nombre op1, print_nombre op2
 		| Mult -> " * ", print_nombre op1, print_nombre op2
-		| Sub_r -> " - ", print_nombre op1, print_nombre op2
-		| Sub_l -> " - ", print_nombre op2, print_nombre op1
-		| Div_r -> " / ", print_nombre op1, print_nombre op2
-		| Div_l -> " / ", print_nombre op2, print_nombre op1
+		| Sub -> " - ", print_nombre op1, print_nombre op2
+		| Div -> " / ", print_nombre op1, print_nombre op2
 		in
 			Printf.printf "%d %s %d = %d\n" val1 op_string val2 res;
 		res
