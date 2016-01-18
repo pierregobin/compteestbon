@@ -99,36 +99,6 @@ let rec explore l =
 	in 
 	explore_acc l [];;
 	
-(*
-let explore_acc l acc =
-	match l with
-	[] -> ()
-	| x::t -> distribute explore_acc add x t
-*)
-
-
-(*
-let pn l = 
-	List.iter (fun x -> print_int (print_nombre x)) l; 
-	print_string " | \n";;
-
-distribute pn (fun x -> div_r (Int 3) x) [Int 6;Int 2;Int 3;Int 5;Int 0;Int 1];;
-print_string "----------------\n";
-distribute pn (fun x -> div_l (Int 3) x) [Int 1;Int 2;Int 3;Int 5;Int 0;Int 2];;
-print_string "----------------\n";
-distribute pn (fun x -> div_r (Int 3) x) [Int 1;Int 3;Int 6];;
-print_string "----------------\n";
-distribute pn (fun x -> div_l (Int 3) x) [Int 1;Int 3;Int 6];;
-
-print_string "----------------\n";
-print_nombre (Int 4);;
-print_string "----------------\n";
-print_nombre (Op (10, Add,  (Op (8, Mult, Int 2, Int 4)),  
-                            (Op (2, Add,  Int 1, Int 1))
-                 )
-             );;
-
-*)
 
 let command = 
   Command.basic
