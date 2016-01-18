@@ -46,7 +46,7 @@ let rec print_nombre x =
 ;;
 
 let print_nb n =
-	(fun x -> ()) (print_nombre n);;
+	ignore (print_nombre n);;
 
 let rec complexity n =
 	match n with
