@@ -17,6 +17,11 @@ let gv x =
 	match x with
 	| Int a -> a;
 	| Op(r,_,_,_) -> r;;
+(************************************************)
+(* add :                                        *)
+(*     add two numbers                          *)
+(************************************************)
+
 
 let add x y = 
         if gv(x) <= gv(y) then raise Illegal
@@ -35,6 +40,10 @@ let div x y =
 	if (gv(y)=0) || not (gv(x) mod gv(y) =0) then raise Illegal
 	else Op(gv(x)/gv(y),Div,x,y);;
 
+(************************************************)
+(* print :                                      *)
+(*     print the nombre recursively             *)
+(************************************************)
 
 let rec print_nombre x =
 	match x with
