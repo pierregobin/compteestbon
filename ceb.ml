@@ -95,12 +95,13 @@ let rec explore l =
         let  rec explore_acc l acc =
 	match l with
 	| [] -> ()
-	| a::t -> begin
-		distribute explore (fun x -> add a x) (t@acc) ;
-		distribute explore (fun x -> mult a x) (t@acc) ;
-		distribute explore (fun x -> sub a x) (t@acc) ;
-		distribute explore (fun x -> div a x) (t@acc) ;
-		explore_acc t (a::acc);
+	| a::t -> 
+	      begin
+				distribute explore (fun x -> add a x) (t@acc) ;
+				distribute explore (fun x -> mult a x) (t@acc) ;
+				distribute explore (fun x -> sub a x) (t@acc) ;
+				distribute explore (fun x -> div a x) (t@acc) ;
+				explore_acc t (a::acc);
 		  end
 	in 
 	explore_acc l [];;
