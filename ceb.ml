@@ -8,10 +8,20 @@ exception Trouve of nombre;;
 (* basic function                               *)
 (************************************************)
 
+(************************************************)
+(* gv :                                         *)
+(*     get value of the nombre                  *)
+(************************************************)
+
 let gv x =
 	match x with
 	| Int a -> a;
 	| Op(r,_,_,_) -> r;;
+(************************************************)
+(* add :                                        *)
+(*     add two numbers                          *)
+(************************************************)
+
 
 let add x y = 
         if gv(x) <= gv(y) then raise Illegal
@@ -30,6 +40,10 @@ let div x y =
 	if (gv(y)=0) || not (gv(x) mod gv(y) =0) then raise Illegal
 	else Op(gv(x)/gv(y),Div,x,y);;
 
+(************************************************)
+(* print :                                      *)
+(*     print the nombre recursively             *)
+(************************************************)
 
 let rec print_nombre x =
 	match x with
@@ -81,12 +95,15 @@ let rec explore l =
         let  rec explore_acc l acc =
 	match l with
 	| [] -> ()
-	| a::t -> begin
-		distribute explore (fun x -> add a x) (t@acc) ;
-		distribute explore (fun x -> mult a x) (t@acc) ;
-		distribute explore (fun x -> sub a x) (t@acc) ;
-		distribute explore (fun x -> div a x) (t@acc) ;
-		explore_acc t (a::acc);
+	| a::t -> 
+	      begin
+				distribute explore (fun x -> add a x) (t@acc) ;
+				distribute explore (fun x -> mult a x) (t@acc) ;
+				distribute explore (fun x -> sub a x) (t@acc) ;
+				distribute explore (fun x -> div a x) (t@acc) ;
+				explore_acc t (a::acc);
+				
+				
 		  end
 	in 
 	explore_acc l [];;
