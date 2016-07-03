@@ -103,6 +103,7 @@ let rec explore l =
 				distribute explore (fun x -> div a x) (t@acc) ;
 				explore_acc t (a::acc);
 				
+				
 		  end
 	in 
 	explore_acc l [];;
