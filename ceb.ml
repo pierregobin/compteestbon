@@ -1,4 +1,4 @@
-open Core.Std;;
+open Core;;
 
 exception Illegal;;
 type operation = Add | Mult | Sub |  Div ;;
@@ -64,7 +64,7 @@ let print_nb n =
 
 let rec complexity n =
 	match n with
-	Int x -> 0
+	Int _ -> 0
 	| Op(_,_,x,y) -> 1 +  (complexity x) + (complexity y);;
 (************************************************)
 (* end basic function                           *)
@@ -112,23 +112,27 @@ let rec explore l =
 let command = 
   Command.basic
     ~summary:"le compte est bon"
-    ~readme:(fun ()-> "More detail")
-    Command.Spec.(empty +> anon("suite" %: string) +> anon("cible" %: int))
-    (fun s g ()  -> (Printf.printf "command %s -> %d\n" s g;
-                goal := g;
-                let l = List.map ~f:(fun x -> Int (int_of_string x)) 
-                        (Str.split (Str.regexp ",") s) in 
-                (
-                        explore l ;
+    Command.Spec.(empty 
+                  +> anon("suite" %: string) (* ~doc:"liste des nombres" *)
+                  +> anon("cible" %: int) (* ~doc:"résultat attendu" *)
+                  )
+    (fun   s g  () -> (
+                        Printf.printf "command %s -> %d\n" s g;
+                        goal := g;
+                        let l = List.map ~f:(fun x -> Int (int_of_string x)) 
+                                (Str.split (Str.regexp ",") s) in 
+                        (
+                                explore l ;
 
-                List.iter ~f:(fun x -> 
-                        print_string "TROUVE : complexity ="; 
-                        print_int (complexity(x)); print_string "\n";  
-                        print_nb x)  
-                        (List.sort ~cmp:( fun x y -> compare (complexity x)
-                        (complexity y)) !result) ;
-                )
-                )
+                                List.iter  (!result) ~f:(fun x ->  
+                                        ( print_string "TROUVE : complexity ="; 
+                                        Pervasives.print_int (complexity(x)); 
+                                        print_string "\n"; 
+                                        );
+                                
+                                ) ;
+                        )
+                    )
     );;
 let () = 
         Command.run ~version:"1.0" ~build_info:"RWO" command;;
