@@ -112,6 +112,7 @@ let rec explore l =
 let command = 
   Command.basic
     ~summary:"le compte est bon"
+    ~readme: (fun () -> "./ceb.native \"1,2,3\" 6")
     Command.Spec.(empty 
                   +> anon("suite" %: string) (* ~doc:"liste des nombres" *)
                   +> anon("cible" %: int) (* ~doc:"résultat attendu" *)
