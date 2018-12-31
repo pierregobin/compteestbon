@@ -124,9 +124,12 @@ let command =
                         (
                                 explore l ;
 
-                                List.iter  (!result) ~f:(fun x ->  
+                                let r = List.sort ~compare:(fun (a,_) (c,_) ->
+                                        compare c a) ( List.map ~f:(fun x ->
+                                                (complexity(x),x)) !result) in
+                                List.iter  r ~f:(fun (c,x) ->  
                                         ( print_string "TROUVE : complexity ="; 
-                                        Pervasives.print_int (complexity(x)); 
+                                        Pervasives.print_int (c); 
                                         print_string "\n"; 
                                         print_nb x;
                                         );
