@@ -115,28 +115,33 @@ let command =
     (let open Command.Let_syntax in
     let%map_open s = anon (sequence ("n" %: int) )
     and          g = flag "cible" (required int) ~aliases:["c"] ~doc:"nombre a trouver"
+    and          cmplx = flag "complexity" no_arg ~doc:"affiche complexite min et max"
+    and          sol   = flag "solutions" ~aliases:["s"] no_arg  ~doc:"affiche les solutions"
     in
-    fun     () -> (
-                       Printf.printf "command %s -> %d\n" (List.fold_left
-                       ~f:(fun a x -> a ^ (string_of_int x)) ~init:"" s) g;
-                        goal := g;
-                        let l = List.map ~f:(fun x -> Int x) s in 
-                        (
-                                explore l ;
+    fun     () -> 
+            Printf.printf "ceb.exe %s -> %d\n" (List.fold_left
+                       ~f:(fun a x -> a ^ "," ^ (string_of_int x)) ~init:"" s) g;
+            goal := g;
+            explore (List.map ~f:(fun x -> Int x) s ) ;
 
-                                let r = List.sort ~compare:(fun (a,_) (c,_) ->
-                                        compare c a) ( List.map ~f:(fun x ->
-                                                (complexity(x),x)) !result) in
-                                List.iter  r ~f:(fun (c,x) ->  
-                                        ( print_string "TROUVE : complexity ="; 
+            let r = List.sort ~compare:(fun (a,_) (c,_) -> compare c a) 
+                    ( List.map ~f:(fun x -> (complexity(x),x)) !result)
+            in
+            (
+               if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity ="; 
                                         Pervasives.print_int (c); 
                                         print_string "\n"; 
-                                        print_nb x;
-                                        );
-                                
-                                ) ;
-                        )
-                    )
+                                        print_nb x;))
+               else let (_,s) = (List.nth_exn r (List.length r - 1)) in 
+                print_nb s;
+               if cmplx then (
+                       print_endline "complexite";
+                       let (max,_) = List.nth_exn r 0
+                       and (min,_) = List.nth_exn r (List.length r - 1) in
+                       Printf.printf "min = %d, max = %d\n" min max;
+               )
+               );
+
     );;
 let () = 
         Command.run ~version:"1.0" ~build_info:"RWO" command;;
