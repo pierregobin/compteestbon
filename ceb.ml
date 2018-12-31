@@ -113,14 +113,14 @@ let command =
   Command.basic
     ~summary:"le compte est bon"
     (let open Command.Let_syntax in
-    let%map_open s = anon("suite" %: string) 
-    and          g = anon("cible" %: int) 
+    let%map_open s = anon (sequence ("n" %: int) )
+    and          g = flag "cible" (required int) ~aliases:["c"] ~doc:"nombre a trouver"
     in
     fun     () -> (
-                       Printf.printf "command %s -> %d\n" s g;
+                       Printf.printf "command %s -> %d\n" (List.fold_left
+                       ~f:(fun a x -> a ^ (string_of_int x)) ~init:"" s) g;
                         goal := g;
-                        let l = List.map ~f:(fun x -> Int (int_of_string x)) 
-                                (Str.split (Str.regexp ",") s) in 
+                        let l = List.map ~f:(fun x -> Int x) s in 
                         (
                                 explore l ;
 
