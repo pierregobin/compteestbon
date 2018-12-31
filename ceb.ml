@@ -128,6 +128,7 @@ let command =
                                         ( print_string "TROUVE : complexity ="; 
                                         Pervasives.print_int (complexity(x)); 
                                         print_string "\n"; 
+                                        print_nb x;
                                         );
                                 
                                 ) ;

@@ -6,5 +6,5 @@ ceb.native : ceb.ml
 clean : 
 	rm ceb.native
 
-test :
+test : ceb.native
 	./ceb.native "1,2,3" 6
