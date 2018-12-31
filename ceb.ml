@@ -112,11 +112,11 @@ let rec explore l =
 let command = 
   Command.basic
     ~summary:"le compte est bon"
-    Command.Spec.(empty 
-                  +> anon("suite" %: string) (* ~doc:"liste des nombres" *)
-                  +> anon("cible" %: int) (* ~doc:"résultat attendu" *)
-                  )
-    (fun   s g  () -> (
+    (let open Command.Let_syntax in
+    let%map_open s = anon("suite" %: string) 
+    and          g = anon("cible" %: int) 
+    in
+    fun     () -> (
                         Printf.printf "command %s -> %d\n" s g;
                         goal := g;
                         let l = List.map ~f:(fun x -> Int (int_of_string x)) 

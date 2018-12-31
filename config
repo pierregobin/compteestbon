@@ -1,0 +1,57 @@
+# Installed packages for 4.06.1:
+base                        v0.11.1  Full standard library replacement for OCaml
+base-bigarray                  base  Bigarray library distributed with the OCaml
+base-threads                   base  Threads library distributed with the OCaml 
+base-unix                      base  Unix library distributed with the OCaml com
+bin_prot                    v0.11.0  A binary protocol generator
+conf-m4                           1  Virtual package relying on m4
+configurator                v0.11.0  Helper library for gathering system configu
+core                        v0.11.3  Industrial strength alternative to OCaml's 
+core_kernel                 v0.11.1  Industrial strength alternative to OCaml's 
+dune                          1.2.1  Fast, portable and opinionated build system
+fieldslib                   v0.11.0  Syntax extension to define first class valu
+jane-street-headers         v0.11.0  Jane Street C header files
+jbuilder                 transition  This is a transition package, jbuilder is n
+num                             1.1  The legacy Num library for arbitrary-precis
+ocaml-compiler-libs         v0.11.0  OCaml compiler libraries repackaged
+ocaml-migrate-parsetree      1.0.11  Convert OCaml parsetrees between different 
+ocamlbuild                   0.12.0  OCamlbuild is a build system with builtin r
+ocamlfind                     1.8.0  A library manager for OCaml
+octavius                      1.2.0  Ocamldoc comment syntax parser
+parsexp                     v0.11.0  S-expression parsing library
+ppx_assert                  v0.11.0  Assert-like extension nodes that raise usef
+ppx_base                    v0.11.0  Base set of ppx rewriters
+ppx_bench                   v0.11.0  Syntax extension for writing in-line benchm
+ppx_bin_prot                v0.11.1  Generation of bin_prot readers and writers 
+ppx_compare                 v0.11.1  Generation of comparison functions from typ
+ppx_custom_printf           v0.11.0  Printf-style format-strings for user-define
+ppx_derivers                    1.0  Shared [@@deriving] plugin registry
+ppx_enumerate               v0.11.1  Generate a list containing all values of a 
+ppx_expect                  v0.11.0  Cram like framework for OCaml
+ppx_fail                    v0.11.0  Add location to calls to failwiths
+ppx_fields_conv             v0.11.0  Generation of accessor and iteration functi
+ppx_hash                    v0.11.1  A ppx rewriter that generates hash function
+ppx_here                    v0.11.0  Expands [%here] into its location
+ppx_inline_test             v0.11.0  Syntax extension for writing in-line tests 
+ppx_jane                    v0.11.0  Standard Jane Street ppx rewriters
+ppx_js_style                v0.11.0  Code style checker for Jane Street Packages
+ppx_let                     v0.11.0  Monadic let-bindings
+ppx_optcomp                 v0.11.0  Optional compilation for OCaml
+ppx_optional                v0.11.0  Pattern matching on flat options
+ppx_pipebang                v0.11.0  A ppx rewriter that inlines reverse applica
+ppx_sexp_conv               v0.11.2  Generation of S-expression conversion funct
+ppx_sexp_message            v0.11.0  A ppx rewriter for easy construction of s-e
+ppx_sexp_value              v0.11.0  A ppx rewriter that simplifies building s-e
+ppx_typerep_conv            v0.11.1  Generation of runtime types from type decla
+ppx_variants_conv           v0.11.1  Generation of accessor and iteration functi
+ppxlib                        0.3.0  A comprehensive toolbox for ppx development
+re                            1.8.0  RE is a regular expression library for OCam
+result                          1.3  Compatibility Result module
+seq                             0.1  Compatibility package for OCaml's standard 
+sexplib                     v0.11.0  Library for serializing OCaml values to and
+sexplib0                    v0.11.0  Library containing the definition of S-expr
+spawn                       v0.12.0  Spawning sub-processes
+splittable_random           v0.11.0  PRNG that can be split into independent str
+stdio                       v0.11.0  Standard IO library for OCaml
+typerep                     v0.11.0  typerep is a library for runtime types.
+variantslib                 v0.11.0  Part of Jane Street's Core library
