@@ -117,7 +117,7 @@ let command =
     and          g = anon("cible" %: int) 
     in
     fun     () -> (
-                        Printf.printf "command %s -> %d\n" s g;
+                       Printf.printf "command %s -> %d\n" s g;
                         goal := g;
                         let l = List.map ~f:(fun x -> Int (int_of_string x)) 
                                 (Str.split (Str.regexp ",") s) in 
@@ -128,6 +128,7 @@ let command =
                                         ( print_string "TROUVE : complexity ="; 
                                         Pervasives.print_int (complexity(x)); 
                                         print_string "\n"; 
+                                        print_nb x;
                                         );
                                 
                                 ) ;

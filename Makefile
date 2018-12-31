@@ -5,6 +5,7 @@ ceb.native : ceb.ml
 
 clean : 
 	rm ceb.native
+	rm -rf _build
 
-test :
+test : ceb.native
 	./ceb.native "1,2,3" 6
