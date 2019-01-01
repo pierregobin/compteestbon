@@ -14,9 +14,9 @@ exception Trouve of nombre;;
 (************************************************)
 
 let gv x =
-	match x with
-	| Int a -> a;
-	| Op(r,_,_,_) -> r;;
+        match x with
+        | Int a -> a;
+        | Op(r,_,_,_) -> r;;
 (************************************************)
 (* add :                                        *)
 (*     add two numbers                          *)
@@ -30,16 +30,16 @@ and divcpt = ref 0
 let add x y = 
         if gv(x) <= gv(y) then raise Illegal
         else (
-             addcpt := !addcpt+1;
+                addcpt := !addcpt+1;
              Op(gv(x)+gv(y),Add,x,y)
-        )
-	
+             )
+
 let sub x y = 
-	if (gv(x) <= gv(y)) then raise Illegal
-	else (
+        if (gv(x) <= gv(y)) then raise Illegal
+        else (
                 subcpt := !subcpt+1;
                 Op(gv(x)-gv(y), Sub,x,y)
-        )
+                )
 
 
 let mult x y = 
@@ -52,11 +52,11 @@ let mult x y =
 let div x y = 
         if (gv(y)=0) || not (gv(x) mod gv(y) =0) then raise Illegal
         else (
-        divcpt := !divcpt+1;
+                divcpt := !divcpt+1;
                 Op(gv(x)/gv(y),Div,x,y)
-        )
+                )
 
-(************************************************)
+        (************************************************)
 (* print :                                      *)
 (*     print the nombre recursively             *)
 (************************************************)
@@ -133,7 +133,7 @@ let command =
     and          g = flag "cible" (required int) ~aliases:["c"] ~doc:"nombre a trouver"
     and          cmplx = flag "complexity" no_arg ~doc:"affiche complexite min et max"
     and          sol   = flag "solutions" ~aliases:["s"] no_arg  ~doc:"affiche les solutions"
-    and          cpt   = flag "compteur" ~aliases:["p"] no_arg  ~doc:"affiche les compteurs"
+    and          cpt   = flag "compteur" ~aliases:["p"] no_arg  ~doc:"affiche les compteurs" 
     in
     fun     () -> 
             Printf.printf "ceb.exe %s -> %d\n" (List.fold_left
@@ -148,9 +148,10 @@ let command =
                     if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity ="; 
                                         Pervasives.print_int (c); 
                                         print_string "\n"; 
-                                        print_nb x;))
-        else let (_,s) = (List.nth_exn r (List.length r - 1)) in 
-        print_nb s;
+                                        print_nb x;));
+        let (_,s) = (List.nth_exn r (List.length r - 1)) in 
+        (
+                print_nb s;
                if cmplx then (
                        print_endline "complexite";
                        let (max,_) = List.nth_exn r 0
@@ -163,8 +164,8 @@ let command =
                        Printf.printf "total = %d\n"(!addcpt + !subcpt + !divcpt
                        + !mulcpt);
                        )
-               );
-
+               )
+        );
             );;
 let () = 
         Command.run ~version:"1.0" ~build_info:"RWO" command;;

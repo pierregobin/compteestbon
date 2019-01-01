@@ -1,11 +1,10 @@
-all : ceb.native
+all : _build/default/ceb.exe
 
-ceb.native : ceb.ml
-	corebuild -pkg str $@
+_build/default/ceb.exe : ceb.ml
+	dune build ceb.exe
 
 clean : 
-	rm ceb.native
 	rm -rf _build
 
-test : ceb.native
-	./ceb.native "1,2,3" 6
+test : all
+	_build/default/ceb.exe -c 6  2 3 -p -sol
