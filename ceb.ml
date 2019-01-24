@@ -4,7 +4,7 @@ exception Illegal;;
 type operation = Add | Mult | Sub |  Div ;;
 type nombre = Int of int | Op of int * operation * nombre * nombre;;
 exception Trouve of nombre;;
-(************************************************)
+(******************* *****************************)
 (* basic function                               *)
 (************************************************)
 
@@ -13,6 +13,7 @@ exception Trouve of nombre;;
 (*     get value of the nombre                  *)
 (************************************************)
 
+ 
 let gv x =
         match x with
         | Int a -> a;
@@ -27,14 +28,14 @@ and subcpt = ref 0
 and mulcpt = ref 0
 and divcpt = ref 0
 
-let add x y = 
+let add x y =
         if gv(x) <= gv(y) then raise Illegal
         else (
                 addcpt := !addcpt+1;
              Op(gv(x)+gv(y),Add,x,y)
              )
 
-let sub x y = 
+let sub x y =
         if (gv(x) <= gv(y)) then raise Illegal
         else (
                 subcpt := !subcpt+1;
@@ -42,14 +43,14 @@ let sub x y =
                 )
 
 
-let mult x y = 
+let mult x y =
         if (gv(x) <= gv(y) || gv(x) = 1 || gv(y) = 1 ) then raise Illegal
         else(
                 mulcpt := !mulcpt+1;
                 Op(gv(x)*gv(y),Mult, x,y)
                 )
 
-let div x y = 
+let div x y =
         if (gv(y)=0) || not (gv(x) mod gv(y) =0) then raise Illegal
         else (
                 divcpt := !divcpt+1;
@@ -61,10 +62,11 @@ let div x y =
 (*     print the nombre recursively             *)
 (************************************************)
 
+
 let rec print_nombre x =
         match x with
         Int a ->  a;
-        | Op (res, op, op1, op2) -> 
+        | Op (res, op, op1, op2) ->
                         let (op_string,val1,val2) = match op with
                 | Add -> " + ", print_nombre op1, print_nombre op2
                 | Mult -> " * ", print_nombre op1, print_nombre op2
@@ -89,14 +91,14 @@ let rec complexity n =
 let goal = ref 0;;
 let result = ref [];;
 
-let distribute g f  l = 
+let distribute g f  l =
         let rec distribute_acc g f  l acc =
                 match l with
                 [] -> (	)
-                | x::t -> begin 
-                        try 
+                | x::t -> begin
+                        try
                                 g( acc@[f  x]@t)
-                with 
+                with
                         | Illegal -> ();
                 end;
                 distribute_acc g f  t (x::acc)
@@ -104,14 +106,14 @@ let distribute g f  l =
         distribute_acc g f  l [];;
 
 let rec explore l =
-        List.iter l ~f:(fun x -> if (gv(x) = !goal) then 
+        List.iter l ~f:(fun x -> if (gv(x) = !goal) then
                 result := x :: !result
         else result := !result) ;
 
         let  rec explore_acc l acc =
                 match l with
         | [] -> ()
-        | a::t -> 
+        | a::t ->
                         begin
                                 distribute explore (fun x -> add a x) (t@acc) ;
                                 distribute explore (fun x -> mult a x) (t@acc) ;
@@ -121,11 +123,11 @@ let rec explore l =
 
 
                 end
-        in 
+        in
         explore_acc l [];;
 
 
-let command = 
+let command =
         Command.basic
     ~summary:"le compte est bon"
     (let open Command.Let_syntax in
@@ -133,23 +135,23 @@ let command =
     and          g = flag "cible" (required int) ~aliases:["c"] ~doc:"nombre a trouver"
     and          cmplx = flag "complexity" no_arg ~doc:"affiche complexite min et max"
     and          sol   = flag "solutions" ~aliases:["s"] no_arg  ~doc:"affiche les solutions"
-    and          cpt   = flag "compteur" ~aliases:["p"] no_arg  ~doc:"affiche les compteurs" 
+    and          cpt   = flag "compteur" ~aliases:["p"] no_arg  ~doc:"affiche les compteurs"
     in
-    fun     () -> 
+    fun     () ->
             Printf.printf "ceb.exe %s -> %d\n" (List.fold_left
                        ~f:(fun a x -> a ^ "," ^ (string_of_int x)) ~init:"" s) g;
             goal := g;
             explore (List.map ~f:(fun x -> Int x) s ) ;
 
-            let r = List.sort ~compare:(fun (a,_) (c,_) -> compare c a) 
+            let r = List.sort ~compare:(fun (a,_) (c,_) -> compare c a)
             ( List.map ~f:(fun x -> (complexity(x),x)) !result)
     in
             (
-                    if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity ="; 
-                                        Pervasives.print_int (c); 
-                                        print_string "\n"; 
+                    if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity =";
+                                        Pervasives.print_int (c);
+                                        print_string "\n";
                                         print_nb x;));
-        let (_,s) = (List.nth_exn r (List.length r - 1)) in 
+        let (_,s) = (List.nth_exn r (List.length r - 1)) in
         (
                 print_nb s;
                if cmplx then (
@@ -167,5 +169,5 @@ let command =
                )
         );
             );;
-let () = 
+let () =
         Command.run ~version:"1.0" ~build_info:"RWO" command;;
