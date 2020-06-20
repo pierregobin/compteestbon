@@ -78,7 +78,7 @@ let rec print_nombre x =
 ;;
 
 let print_nb n =
-        ignore (print_nombre n);;
+        ignore (print_nombre n : int);;
 
 let rec complexity n =
         match n with
@@ -140,19 +140,17 @@ let command =
     fun     () ->
             Printf.printf "ceb.exe %s -> %d\n" (List.fold_left
                        ~f:(fun a x -> a ^ "," ^ (string_of_int x)) ~init:"" s) g;
-            goal := g;
+            goal := g+0.;
             explore (List.map ~f:(fun x -> Int x) s ) ;
 
             let r = List.sort ~compare:(fun (a,_) (c,_) -> compare c a)
             ( List.map ~f:(fun x -> (complexity(x),x)) !result)
     in
             (
-                    if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity =";
-                                        Pervasives.print_int (c);
-                                        print_string "\n";
-                                        print_nb x;));
-        let (_,s) = (List.nth_exn r (List.length r - 1)) in
-        (
+                    if sol then (
+                            List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity =";
+                                        Printf.printf "%d\n" c;                                       print_nb x;));
+                    let (_,s) = (List.nth_exn r (List.length r - 1)) in
                 print_nb s;
                if cmplx then (
                        print_endline "complexite";
@@ -167,7 +165,9 @@ let command =
                        + !mulcpt);
                        )
                )
-        );
-            );;
+                    else
+                            (Printf.printf "pas de solution";)
+           )
+    );;
 let () =
         Command.run ~version:"1.0" ~build_info:"RWO" command;;
