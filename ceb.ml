@@ -140,7 +140,7 @@ let command =
     fun     () ->
             Printf.printf "ceb.exe %s -> %d\n" (List.fold_left
                        ~f:(fun a x -> a ^ "," ^ (string_of_int x)) ~init:"" s) g;
-            goal := g+0.;
+            goal := g;
             explore (List.map ~f:(fun x -> Int x) s ) ;
 
             let r = List.sort ~compare:(fun (a,_) (c,_) -> compare c a)
