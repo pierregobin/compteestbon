@@ -1,5 +1,6 @@
 open Core;;
 
+
 exception Illegal;;
 type operation = Add | Mult | Sub |  Div ;;
 type nombre = Int of int | Op of int * operation * nombre * nombre;;
