@@ -7,4 +7,5 @@ clean :
 	rm -rf _build
 
 test : all
-	_build/default/ceb.exe -c 6  2 3 -p -sol
+	dune exec ./ceb.exe -- -c 6   2 3 -p -sol
+	dune exec ./ceb.exe -- -c 10 2 3

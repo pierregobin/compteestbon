@@ -4,3 +4,23 @@
 	(preprocess (pps ppx_let ppx_jane -allow-unannotated-ignores))
 )
 
+(rule
+ (with-stdout-to data1.out (run ./ceb.exe -c 6 2 3 -sol)))
+
+(rule
+ (with-stdout-to data2.out (run ./ceb.exe -c 5 2 3 -sol)))
+
+(rule
+ (with-stdout-to data2_1.out (run ./ceb.exe -c 5 2 3 )))
+
+(rule
+ (alias   runtest)
+ (action (diff data1.expected data1.out)))
+
+(rule
+ (alias   runtest)
+ (action (diff data2.expected data2.out)))
+
+(rule
+ (alias   runtest)
+ (action (diff data2_1.expected data2_1.out)))
