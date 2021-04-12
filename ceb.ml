@@ -78,7 +78,7 @@ let rec print_nombre x =
 ;;
 
 let print_nb n =
-        ignore (print_nombre n);;
+        ignore ( (print_nombre n) :  int);;
 
 let rec complexity n =
         match n with
@@ -148,7 +148,7 @@ let command =
     in
             (
                     if sol then List.iter  r ~f:(fun (c,x) ->  ( print_string "TROUVE : complexity =";
-                                        Pervasives.print_int (c);
+                                        Stdlib.print_int (c);
                                         print_string "\n";
                                         print_nb x;));
         let (_,s) = (List.nth_exn r (List.length r - 1)) in

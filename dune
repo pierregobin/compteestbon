@@ -1,6 +1,6 @@
 (executable
 	(name ceb)
 	(libraries str core)
-	(preprocess (pps ppx_jane))
+	(preprocess (pps ppx_let ppx_jane))
 )
 
